@@ -1,12 +1,16 @@
 # global variables
 OFFERS = {}
 SECURITIES = {}
+MONEY = 0
 
 
 class Security:
     def __init__(self, name):
         self.name = name
         self.is_open = False
+
+        self.our_amount_waiting = None
+        self.our_amount = None
 
         # all avakuable on the beginning
         self.volume = None
@@ -58,8 +62,6 @@ class Offer:
         self.out = False
 
 
-
-
 securities_names = [
     "BOND",
     "VALBZ",
@@ -73,9 +75,10 @@ securities_names = [
 
 def reset_state():
     # [id] -> offer
-    global OFFERS, SECURITIES
+    global OFFERS, SECURITIES, MONEY
     OFFERS = {}
     SECURITIES = {name: Security(name) for name in securities_names}
+    MONEY = 0
 
 
 def open(line):
