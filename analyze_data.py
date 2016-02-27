@@ -67,7 +67,6 @@ class Offer:
     @staticmethod
     def get_id():
         Offer.id += 1
-        print(Offer.id)
         return Offer.id
 
 
