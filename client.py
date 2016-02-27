@@ -40,9 +40,8 @@ class Client(LineReceiver):
             open(args)
         elif command == 'CLOSE':
             close(args)
-        elif command == 'CLOSE':
-            close(args)
         elif command == 'ERROR':
+            print(command, args)
             error(args)
         elif command == 'BOOK':
             book(args)
@@ -51,14 +50,17 @@ class Client(LineReceiver):
         elif command == 'ACK':
             ack(args)
         elif command == 'REJECT':
+            print(command, args)
             reject(args)
         elif command == 'FILL':
             print(command, args)
             fill(args)
         elif command == 'OUT':
             out(args)
+        elif command == 'HELLO':
+            print(command, args)
         else:
-            AssertionError("No such command. From server.")
+            raise AssertionError("No such command. From server.")
 
         decision = decide_if_trade()
         if decision:

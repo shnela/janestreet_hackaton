@@ -215,4 +215,4 @@ def out(line):
 
 
 def error(line):
-    print(line)
+    pass
