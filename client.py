@@ -7,6 +7,8 @@ from twisted.protocols.basic import LineReceiver
 
 
 class Client(LineReceiver):
+    delimiter = b'\n'
+
     def connectionMade(self):
         self.sendLine(b'HELLO DMX')
         print('connected')
