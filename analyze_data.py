@@ -3,11 +3,14 @@ class Security:
         self.name = name
 
         # all avakuable on the beginning
-        self.volume = -1
-        self.available = -1
+        self.volume = None
+        self.available = None
         # our
-        self.bought = -1
-        self.value_our = -1
+        self.bought = None
+        self.value_our = None
+
+        # avg between max_buy and min_sell propositions
+        self.center_price = None
 
         # [price] -> amount
         self.buy_offers = {}
@@ -23,20 +26,46 @@ securities_names = [
     "XLF",
 ]
 
+SECURITIES = {name: Security(name) for name in securities_names}
+
+
 def book(line):
+    """
+    update information about pending offers
+    extract avg price min/max TODO - improve to take wider range of offers into consideration
+    """
     splitted_line = line.split()
     stock_name = splitted_line[0]
-    action = splitted_line[1]
-    data = splitted_line[2:]
+    data = splitted_line[2:] # omit BUY string
 
     buy_dict = {}
     sell_dict = {}
-    state = None
+    buy_data = True # buy
+    max_buy_price = None
+    min_sell_price = None
     for entry in data:
-        
+        if entry == 'SELL':
+            buy_data = False
+            continue
+        price, volume = entry.split(':')
+        if buy_data:
+            buy_dict[price] = volume
+            if not max_buy_price:
+                max_buy_price = price
+            max_buy_price = max(max_buy_price, price)
+        else:
+            sell_dict[price] = volume
+            if not min_sell_price:
+                min_sell_price = price
+            min_sell_price = min(min_sell_price, price)
 
+    center_price = max_buy_price + ((min_sell_price - max_buy_price) / 2) if max_buy_price and min_sell_price else None
 
-SECURITIES = [Security(name) for name in securities_names]
+    global SECURITIES
+    SECURITIES[stock_name].buy_offers = buy_dict
+    SECURITIES[stock_name].sell_offers = sell_dict
+    SECURITIES[stock_name].center_price = center_price
+
 
 
 def
