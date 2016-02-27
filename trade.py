@@ -33,9 +33,9 @@ def trade_BOND(price_limit):
     if bond.is_open and not bond.locked:
         amount = None
         amount_sell = bond.our_count - bond.our_count_waiting_sell
-        amount_buy = (50000 // 999) - bond.our_count_waiting_buy
-        print(bond.our_count_waiting_buy, bond.our_count_waiting_sell)
-        print(bond.our_count, amount_sell)
+        amount_buy = (50000 // 999) - bond.our_count - bond.our_count_waiting_buy
+        # print(bond.our_count_waiting_buy, bond.our_count_waiting_sell)
+        # print(amount_buy, amount_sell)
         if amount_sell and amount_sell > amount_buy:
             # sell
             price = 1001
