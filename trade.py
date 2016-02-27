@@ -28,9 +28,10 @@ def trade_BOND():
 
     if bond.is_open and not bond.locked:
         available_to_buy = 100 - bond.our_count - bond.our_count_waiting_buy
-        if (bond.our_count - bond.our_count_waiting_sell) > 0:
-            return bond.name, 1001, -bond.our_count
-        elif available_to_buy:
+        available_to_sell = 100 + (bond.our_count - bond.our_count_waiting_sell)
+        if available_to_sell > 0:
+            return bond.name, 1001, -available_to_sell
+        elif available_to_buy > 0:
             return bond.name, 999, available_to_buy
 
 
