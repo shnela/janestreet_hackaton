@@ -198,12 +198,12 @@ def fill(line):
     security = SECURITIES[offer.symbol]
 
     if offer.dir == Offer.SELL:
-        security.our_count -= offer.size
-        security.our_count_waiting += offer.size
+        security.our_count -= size
+        security.our_count_waiting += size
         MONEY += price
     elif offer.dir == Offer.BUY:
-        security.our_count += offer.size
-        security.our_count_waiting -= offer.size
+        security.our_count += size
+        security.our_count_waiting -= size
         MONEY -= price
 
 
