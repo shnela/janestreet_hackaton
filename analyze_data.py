@@ -144,7 +144,7 @@ def reject(line):
 
 
 def fill(line):
-    _, offer_id, _, _, _, size = line.split()[1]
+    _, offer_id, _, _, _, size = line.split()
     offer_id = int(offer_id)
     size = int(size)
 
