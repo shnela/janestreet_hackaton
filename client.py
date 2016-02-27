@@ -72,9 +72,10 @@ class Client(LineReceiver):
 
         self.message_count += 1
         if not self.message_count % 100:
-            print('\nmoney:', MONEY)
-            for s in SECURITIES.values():
-                print(s)
+            print('\nmoney: {}'.format(MONEY))
+            print(SECURITIES['BOND'])
+            # for s in SECURITIES.values():
+            #     print(s)
 
 
 class ClientFactory(ReconnectingClientFactory):
