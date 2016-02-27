@@ -60,8 +60,13 @@ class Client(LineReceiver):
 
         decision = decide_if_trade()
         if decision:
-            name, price, amount = decision
-            print(name, price, amount)
+            id, name, price, amount = decision
+            assert amount
+            arg = 'BUY' if amount > 0 else 'SELL'
+            amount = abs(amount)
+            command = 'ADD {} {} {} {} {}'.format(id, name, arg, price, amount)
+            print('sending:', command)
+            self.sendLine(command.encode())
 
 
 class ClientFactory(ReconnectingClientFactory):
