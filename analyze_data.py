@@ -184,6 +184,7 @@ def fill(line):
     offer_id, _, _, price, size = line.split()
     offer_id = int(offer_id)
     size = int(size)
+    price = int(price)
 
     global OFFERS, SECURITIES, MONEY
     offer = OFFERS[offer_id]
