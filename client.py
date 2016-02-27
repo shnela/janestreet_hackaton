@@ -5,7 +5,7 @@ from twisted.internet.defer import Deferred
 from twisted.internet.protocol import ReconnectingClientFactory
 from twisted.protocols.basic import LineReceiver
 
-from .analyze_data import (
+from analyze_data import (
     reset_state,
     open,
     close,
@@ -18,7 +18,7 @@ from .analyze_data import (
     out,
     SECURITIES,
 )
-from .trade import decide_if_trade
+from trade import decide_if_trade
 
 
 class Client(LineReceiver):
