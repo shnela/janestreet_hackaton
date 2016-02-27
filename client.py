@@ -9,7 +9,7 @@ from analyze_data import (
     reset_state,
     open,
     close,
-    #error, #TODO
+    error,
     trade,
     book,
     ack,
@@ -42,7 +42,7 @@ class Client(LineReceiver):
         elif command == 'CLOSE':
             close(args)
         elif command == 'ERROR':
-            raise NotImplementedError("Error not impolemented") # TODO
+            error(args)
         elif command == 'BOOK':
             book(args)
         elif command == 'TRADE':
