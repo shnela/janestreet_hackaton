@@ -10,13 +10,10 @@ def decide_if_trade():
     # invoke after every operations
     decide_if_trade.counter += 1
 
-    available_money = 50000 + money
-
-    bond_request = trade_BOND(available_money)
-    the_best_request = bond_request
+    the_best_request = trade_BOND()
 
     if the_best_request:
-        symbol, price, amount = bond_request
+        symbol, price, amount = the_best_request
 
         direction = 'BUY' if amount > 0 else 'SELL'
         amount = abs(amount)
@@ -27,28 +24,15 @@ def decide_if_trade():
 decide_if_trade.counter = 0
 
 
-def trade_BOND(price_limit):
+def trade_BOND():
     bond = SECURITIES['BOND']
 
     if bond.is_open and not bond.locked:
-        amount = None
-        amount_sell = bond.our_count - bond.our_count_waiting_sell
-        amount_buy = (50000 // 999) - bond.our_count - bond.our_count_waiting_buy
-        # print(bond.our_count_waiting_buy, bond.our_count_waiting_sell)
-        # print(amount_buy, amount_sell)
-        if amount_sell and amount_sell > amount_buy:
-            # sell
-            price = 1001
-            amount = -amount_sell
-        elif amount_buy:
-            # buy
-            price = 999
-            # amount = price_limit // price
-            amount = amount_buy
-
-        if amount:
-            assert(bond.our_count_waiting_sell >= 0)
-            return bond.name, price, amount
+        available_to_buy = 100 - bond.our_count - bond.our_count_waiting_buy - bond.our_count_waiting_sell
+        if bond.our_count:
+            return bond.name, 1001, -bond.our_count
+        elif available_to_buy:
+            return bond.name, 999, available_to_buy
 
 
 def trade_VALBZ_VALE(price_limit):
