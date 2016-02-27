@@ -16,6 +16,28 @@ class Security:
         self.buy_offers = {}
         self.sell_offers = {}
 
+
+class Offer:
+    SENT = 'SENT'
+    ACK = 'ACK'
+    REJECT = 'REJECT'
+
+    def __init__(self, id, symbol, dir, price, size, status=SENT):
+        if dir not in ('BUY', 'SELL'):
+            raise ValueError('dir not in (SELL, BUY)')
+
+        self.id = id
+        self.symbol = symbol
+        self.dir = dir
+        self.price = price
+        self.size = size
+        self.status = status  # possible: SENT, ACK, REJECT
+
+
+# [id] -> offer
+OFFERS = {}
+
+
 securities_names = [
     "BOND",
     "VALBZ",
@@ -67,5 +89,16 @@ def book(line):
     SECURITIES[stock_name].center_price = center_price
 
 
+def ack(line):
+    offer_id = int(line.split()[1])
 
-def
+    global OFFERS
+    OFFERS[offer_id].status = Offer.ACK
+
+
+def reject(line):
+    _, offer_id, message = line.split()
+    offer_id = int(offer_id)
+
+    global OFFERS
+    OFFERS[offer_id].status = Offer.REJECT
