@@ -145,7 +145,7 @@ def book(line):
 
 
 def ack(line):
-    offer_id = int(line.split()[1])
+    offer_id = int(line)
 
     global OFFERS, SECURITIES
     offer = OFFERS[offer_id]
