@@ -91,10 +91,7 @@ def close(line):
 
 
 def trade(line):
-    splitted_line = line.split()
-    symbol = splitted_line[0]
-    price = splitted_line[1]
-    size = splitted_line[2]
+    symbol, price, size = line.split()
 
     global SECURITIES
     SECURITIES[symbol].last_prices.append(price)
