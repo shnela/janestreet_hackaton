@@ -16,8 +16,7 @@ def decide_if_trade():
         symbol, price, amount = the_best_request
 
         direction = 'BUY' if amount > 0 else 'SELL'
-        amount = abs(amount)
-        offer = Offer(symbol, direction, price, amount)
+        offer = Offer(symbol, direction, price, abs(amount))
         OFFERS[offer.id] = offer
         return offer.id, "BOND", price, amount
 
