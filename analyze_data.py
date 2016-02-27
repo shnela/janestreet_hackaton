@@ -68,6 +68,7 @@ class Offer:
         self.dir = dir
         self.price = price
         self.size = size
+        assert(size >= 0)
         self.status = status  # possible: SENT, ACK, REJECT
         self.left = size
         self.out = False
@@ -84,6 +85,7 @@ class Offer:
         security.locked = False
 
         if status == self.ACK:
+            assert(self.size >= 0)
             if self.dir == Offer.SELL:
                 security.our_count_waiting_sell += self.size
             elif self.dir == Offer.BUY:

@@ -19,6 +19,7 @@ def decide_if_trade():
         symbol, price, amount = bond_request
 
         direction = 'BUY' if amount > 0 else 'SELL'
+        amount = abs(amount)
         offer = Offer(symbol, direction, price, amount)
         OFFERS[offer.id] = offer
         return offer.id, "BOND", price, amount
@@ -33,6 +34,8 @@ def trade_BOND(price_limit):
         amount = None
         amount_sell = bond.our_count - bond.our_count_waiting_sell
         amount_buy = (50000 // 999) - bond.our_count_waiting_buy
+        print(bond.our_count_waiting_buy, bond.our_count_waiting_sell)
+        print(bond.our_count, amount_sell)
         if amount_sell and amount_sell > amount_buy:
             # sell
             price = 1001
@@ -44,7 +47,6 @@ def trade_BOND(price_limit):
             amount = amount_buy
 
         if amount:
-            print(bond.our_count_waiting_buy, bond.our_count_waiting_sell)
             assert(bond.our_count_waiting_sell >= 0)
             return bond.name, price, amount
 
