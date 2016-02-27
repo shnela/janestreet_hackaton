@@ -95,6 +95,8 @@ def close(line):
 
 def trade(line):
     symbol, price, size = line.split()
+    price = int(price)
+    size = int(size)
 
     global SECURITIES
     SECURITIES[symbol].last_prices.append(price)
@@ -117,6 +119,8 @@ def book(line):
             buy_data = False
             continue
         price, volume = entry.split(':')
+        price = int(price)
+        volume = int(volume)
         if buy_data:
             buy_dict[price] = volume
         else:

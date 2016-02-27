@@ -5,9 +5,9 @@ from analyze_data import (
 )
 
 
-def trade():
+def decide_if_trade():
     # invoke after every operations
-    trade.counter += 1
+    decide_if_trade.counter += 1
 
     available_money = 50000 + money
 
@@ -16,11 +16,12 @@ def trade():
         price, amount = bond_request[0], bond_request[1]
         return "BOND", price, amount
 
-trade.counter = 0
+decide_if_trade.counter = 0
 
 
 def trade_BOND(price_limit):
     bond = SECURITIES['BOND']
+    print (price_limit)
 
     value = 1000
     if abs(bond.our_amount) < 10 or abs(bond.our_amount_waiting) < 10:
