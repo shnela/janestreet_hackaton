@@ -170,7 +170,6 @@ def ack(line):
     offer.change_status(Offer.ACK)
 
 
-
 def reject(line):
     splitted_line = line.split()
     offer_id = splitted_line[0]
@@ -182,11 +181,11 @@ def reject(line):
 
 
 def fill(line):
-    offer_id, _, _, _, size = line.split()
+    offer_id, _, _, price, size = line.split()
     offer_id = int(offer_id)
     size = int(size)
 
-    global OFFERS, SECURITIES
+    global OFFERS, SECURITIES, MONEY
     offer = OFFERS[offer_id]
     offer.left -= size
 
@@ -195,9 +194,11 @@ def fill(line):
     if offer.dir == Offer.SELL:
         security.our_count -= offer.size
         security.our_count_waiting += offer.size
+        MONEY += price
     elif offer.dir == Offer.BUY:
         security.our_count += offer.size
         security.our_count_waiting -= offer.size
+        MONEY -= price
 
 
 def out(line):

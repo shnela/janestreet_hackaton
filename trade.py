@@ -12,7 +12,7 @@ def decide_if_trade():
 
     available_money = 50000 + money
 
-    bond_request = trade_BOND(50000)
+    bond_request = trade_BOND(available_money)
     the_best_request = bond_request
 
     if the_best_request:
