@@ -18,7 +18,7 @@ from .analyze_data import (
     out,
     SECURITIES,
 )
-from trade import decide_if_trade
+from .trade import decide_if_trade
 
 
 class Client(LineReceiver):
