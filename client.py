@@ -8,7 +8,7 @@ from twisted.protocols.basic import LineReceiver
 
 class Client(LineReceiver):
     def connectionMade(self):
-        self.sendLine('HELLO DMX')
+        self.sendLine(b'HELLO DMX')
         print('connected')
 
     def rawDataReceived(self, data):
