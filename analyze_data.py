@@ -184,3 +184,7 @@ def out(line):
 
     global OFFERS
     OFFERS[offer_id].out = True
+
+
+def error(line):
+    print(line)
