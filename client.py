@@ -58,7 +58,10 @@ class Client(LineReceiver):
         else:
             AssertionError("No such command. From server.")
 
-        decide_if_trade()
+        decision = decide_if_trade()
+        if decision:
+            name, price, amount = decision
+            print (name, price, amount)
 
 
 class ClientFactory(ReconnectingClientFactory):
