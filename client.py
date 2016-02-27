@@ -1,11 +1,16 @@
 import sys
 
 from twisted.internet import task
+from twisted.internet.defer import Deferred
 from twisted.internet.protocol import ReconnectingClientFactory
 from twisted.protocols.basic import LineReceiver
 
 
 class Client(LineReceiver):
+    def connectionMade(self):
+        self.sendLine('HELLO DMX')
+        print('connected')
+
     def rawDataReceived(self, data):
         print('raw data received: ', data)
 
@@ -14,14 +19,13 @@ class Client(LineReceiver):
 
 
 class ClientFactory(ReconnectingClientFactory):
+    protocol = Client
+
+    def __init__(self):
+        self.done = Deferred()
+
     def startedConnecting(self, connector):
         print('Started to connect.')
-
-    def buildProtocol(self, addr):
-        print('Connected.')
-        print('Resetting reconnection delay')
-        self.resetDelay()
-        return Client()
 
     def clientConnectionLost(self, connector, reason):
         print('Lost connection. Reason:', reason)
