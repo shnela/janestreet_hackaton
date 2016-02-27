@@ -5,9 +5,10 @@ class Security:
         # all avakuable on the beginning
         self.volume = None
         self.available = None
-        # our
-        self.bought = None
-        self.value_our = None
+
+        # list of values of last transactions
+        self.last_prices = []
+        self.avg_transactions_value = None
 
         # avg between max_buy and min_sell propositions
         self.center_price = None
@@ -15,6 +16,21 @@ class Security:
         # [price] -> amount
         self.buy_offers = {}
         self.sell_offers = {}
+
+    def count_avg_transaction_value(self, n=None):
+        values = self.last_prices[-n:] if n else self.last_prices
+        self.avg_transactions_value = sum(values) / len(values)
+        return self.avg_transactions_value
+
+    def count_center_price(self):
+        if not self.buy_offers or not self.sell_offers:
+            return
+
+        min_sell_price = min(self.sell_offers.keys())
+        max_buy_price = max(self.buy_offers.keys())
+
+        self.center_price = max_buy_price + ((min_sell_price - max_buy_price) / 2)
+        return self.center_price
 
 
 class Offer:
@@ -37,7 +53,6 @@ class Offer:
 # [id] -> offer
 OFFERS = {}
 
-
 securities_names = [
     "BOND",
     "VALBZ",
@@ -49,6 +64,16 @@ securities_names = [
 ]
 
 SECURITIES = {name: Security(name) for name in securities_names}
+
+
+def trade(line):
+    splitted_line = line.split()
+    symbol = splitted_line[0]
+    price = splitted_line[1]
+    size = splitted_line[2]
+
+    global SECURITIES
+    SECURITIES[symbol].last_prices.append(price)
 
 
 def book(line):
@@ -63,8 +88,6 @@ def book(line):
     buy_dict = {}
     sell_dict = {}
     buy_data = True # buy
-    max_buy_price = None
-    min_sell_price = None
     for entry in data:
         if entry == 'SELL':
             buy_data = False
@@ -72,21 +95,13 @@ def book(line):
         price, volume = entry.split(':')
         if buy_data:
             buy_dict[price] = volume
-            if not max_buy_price:
-                max_buy_price = price
-            max_buy_price = max(max_buy_price, price)
         else:
             sell_dict[price] = volume
-            if not min_sell_price:
-                min_sell_price = price
-            min_sell_price = min(min_sell_price, price)
-
-    center_price = max_buy_price + ((min_sell_price - max_buy_price) / 2) if max_buy_price and min_sell_price else None
 
     global SECURITIES
     SECURITIES[stock_name].buy_offers = buy_dict
     SECURITIES[stock_name].sell_offers = sell_dict
-    SECURITIES[stock_name].center_price = center_price
+    SECURITIES[stock_name].count_center_price()
 
 
 def ack(line):
