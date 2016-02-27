@@ -22,13 +22,13 @@ decide_if_trade.counter = 0
 def trade_BOND(price_limit):
     bond = SECURITIES['BOND']
 
-    if bond.our_amount_waiting == 0:
-        if bond.our_amount > 0:
+    if bond.our_count_waiting == 0:
+        if bond.our_count > 0:
             # sell
             price = 1001
-            amount = bond.our_amount
+            amount = bond.our_count
             amount = -amount
-        elif bond.our_amount == 0:
+        elif bond.our_count == 0:
             # buy
             price = 999
             amount = price_limit / price
