@@ -42,7 +42,7 @@ class Security:
         min_sell_price = min(self.sell_offers.keys())
         max_buy_price = max(self.buy_offers.keys())
 
-        self.center_price = max_buy_price + ((min_sell_price - max_buy_price) / 2)
+        self.center_price = int(max_buy_price + ((min_sell_price - max_buy_price) / 2))
         return self.center_price
 
     def __str__(self):

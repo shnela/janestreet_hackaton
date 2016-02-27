@@ -19,7 +19,7 @@ from analyze_data import (
     initialize,
     SECURITIES,
     MONEY)
-from trade import decide_if_trade
+from trade import decide_if_trade, trade_XLF
 
 
 class Client(LineReceiver):

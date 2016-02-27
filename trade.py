@@ -10,7 +10,7 @@ def decide_if_trade():
     # invoke after every operations
     decide_if_trade.counter += 1
 
-    the_best_request = trade_BOND()
+    the_best_request = trade_XLF()
 
     if the_best_request:
         symbol, price, amount = the_best_request
@@ -18,7 +18,8 @@ def decide_if_trade():
         direction = 'BUY' if amount > 0 else 'SELL'
         offer = Offer(symbol, direction, price, abs(amount))
         OFFERS[offer.id] = offer
-        return offer.id, "BOND", price, amount
+        return offer.id, "XLF", price, amount
+
 
 decide_if_trade.counter = 0
 
@@ -49,3 +50,36 @@ def trade_VALBZ_VALE(price_limit):
             raise AssertionError('stuff happened')
 
         return vale.name, price, amount
+
+
+def compute_XLF_value():
+    values = {
+        'BOND': 1000,
+        'GS': SECURITIES['GS'].center_price,
+        'MS': SECURITIES['MS'].center_price,
+        'WFC': SECURITIES['WFC'].center_price,
+    }
+
+    return 3 * values['BOND'] + 2 * values['GS'] + 3 * values['MS'] + 2 * values['WFC']
+
+
+def trade_XLF():
+    xlf = SECURITIES['XLF']
+
+    if not xlf.center_price:
+        return
+
+    if xlf.is_open and not xlf.locked:
+        available_to_buy = 100 - xlf.our_count - xlf.our_count_waiting_buy - xlf.our_count_waiting_sell
+
+        if (xlf.our_count - xlf.our_count_waiting_sell) > 0:
+            return xlf.name, xlf.center_price + 1, -xlf.our_count
+        elif available_to_buy:
+            return xlf.name, xlf.center_price - 1, available_to_buy
+
+
+def decide_if_convert_XLF():
+    xlf = SECURITIES['XLF']
+
+    if compute_XLF_value() > xlf.center_price and xlf.our_count >= 10:
+        return xlf.our_count % 10 * 10
