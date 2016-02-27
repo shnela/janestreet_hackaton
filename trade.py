@@ -38,7 +38,7 @@ def trade_BOND(price_limit):
         elif bond.our_count == 0:
             # buy
             price = 999
-            amount = price_limit / price
+            amount = price_limit // price
         else:
             AssertionError('value < 0 ?')
         return bond.name, price, amount
