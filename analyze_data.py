@@ -1,6 +1,6 @@
 # global variables
-OFFERS = {}
-SECURITIES = {}
+OFFERS = {}  # id -> offer
+SECURITIES = {}  # name -> offer
 MONEY = 0
 
 
@@ -9,8 +9,8 @@ class Security:
         self.name = name
         self.is_open = False
 
-        self.our_amount_waiting = 0
-        self.our_amount = 0
+        self.our_count_waiting = None
+        self.our_count = None
 
         # all avakuable on the beginning
         self.volume = None
@@ -47,6 +47,8 @@ class Offer:
     SENT = 'SENT'
     ACK = 'ACK'
     REJECT = 'REJECT'
+    BUY = 'BUY'
+    SELL = 'SELL'
 
     def __init__(self, id, symbol, dir, price, size, status=SENT):
         if dir not in ('BUY', 'SELL'):
@@ -138,8 +140,16 @@ def book(line):
 def ack(line):
     offer_id = int(line.split()[1])
 
-    global OFFERS
-    OFFERS[offer_id].status = Offer.ACK
+    global OFFERS, SECURITIES
+    offer = OFFERS[offer_id]
+    offer.status = Offer.ACK
+
+    security = SECURITIES[offer.symbol]
+
+    if offer.dir == Offer.SELL:
+        security.our_count_waiting -= offer.size
+    elif offer.dir == Offer.BUY:
+        security.our_count_waiting += offer.size
 
 
 def reject(line):
@@ -155,8 +165,18 @@ def fill(line):
     offer_id = int(offer_id)
     size = int(size)
 
-    global OFFERS
-    OFFERS[offer_id].left -= size
+    global OFFERS, SECURITIES
+    offer = OFFERS[offer_id]
+    offer.left -= size
+
+    security = SECURITIES[offer.symbol]
+
+    if offer.dir == Offer.SELL:
+        security.our_count -= offer.size
+        security.our_count_waiting += offer.size
+    elif offer.dir == Offer.BUY:
+        security.our_count += offer.size
+        security.our_count_waiting -= offer.size
 
 
 def out(line):
