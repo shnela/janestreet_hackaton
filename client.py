@@ -16,6 +16,7 @@ from analyze_data import (
     reject,
     fill,
     out,
+    SECURITIES,
 )
 from trade import decide_if_trade
 

@@ -9,8 +9,8 @@ class Security:
         self.name = name
         self.is_open = False
 
-        self.our_amount_waiting = None
-        self.our_amount = None
+        self.our_amount_waiting = 0
+        self.our_amount = 0
 
         # all avakuable on the beginning
         self.volume = None
@@ -75,9 +75,12 @@ securities_names = [
 
 def reset_state():
     # [id] -> offer
-    global OFFERS, SECURITIES, MONEY
-    OFFERS = {}
-    SECURITIES = {name: Security(name) for name in securities_names}
+    global OFFERS
+    global SECURITIES
+    global MONEY
+    OFFERS.clear()
+    for name in securities_names:
+        SECURITIES[name] = Security(name)
     MONEY = 0
 
 

@@ -21,11 +21,7 @@ decide_if_trade.counter = 0
 
 def trade_BOND(price_limit):
     bond = SECURITIES['BOND']
-    print (price_limit)
 
-    value = 1000
-    if abs(bond.our_amount) < 10 or abs(bond.our_amount_waiting) < 10:
-        raise AssertionError('TO LOW VALUE')
     if bond.our_amount_waiting == 0:
         if bond.our_amount > 0:
             # sell
