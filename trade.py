@@ -18,7 +18,6 @@ def decide_if_trade():
     if the_best_request:
         symbol, price, amount = bond_request
 
-        # TODO @Ulit give me a id
         direction = 'BUY' if amount > 0 else 'SELL'
         offer = Offer(symbol, direction, price, amount)
         OFFERS[offer.id] = offer

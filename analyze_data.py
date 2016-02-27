@@ -51,7 +51,7 @@ class Offer:
     SELL = 'SELL'
     id = 0
 
-    def __init__(self, id, symbol, dir, price, size, status=SENT):
+    def __init__(self, symbol, dir, price, size, status=SENT):
         if dir not in ('BUY', 'SELL'):
             raise ValueError('dir not in (SELL, BUY)')
 
@@ -65,10 +65,10 @@ class Offer:
         self.out = False
 
     @staticmethod
-    def get_id(self):
-        self.id += 1
-        print(self.id)
-        return self.id
+    def get_id():
+        Offer.id += 1
+        print(Offer.id)
+        return Offer.id
 
 
 securities_names = [
