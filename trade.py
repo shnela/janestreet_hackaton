@@ -29,21 +29,22 @@ decide_if_trade.counter = 0
 def trade_BOND(price_limit):
     bond = SECURITIES['BOND']
 
-    if bond.is_open and not bond.locked and bond.our_count_waiting == 0:
-        if bond.our_count > 0:
+    if bond.is_open and not bond.locked:
+        amount = None
+        amount_sell = bond.our_count - bond.our_count_waiting_sell
+        amount_buy = (50000 // 999) - bond.our_count_waiting_buy
+        if amount_sell:
             # sell
             price = 1001
-            amount = bond.our_count - bond.our_count_waiting
-            amount = -amount
-        elif bond.our_count == 0:
+            amount = -amount_sell
+        elif amount_buy:
             # buy
             price = 999
             # amount = price_limit // price
-            amount = 50000 // price - bond.our_count_waiting
-        else:
-            raise AssertionError('value < 0 ?')
+            amount = amount_buy
 
-        return bond.name, price, amount
+        if amount:
+            return bond.name, price, amount
 
 
 def trade_VALBZ_VALE(price_limit):

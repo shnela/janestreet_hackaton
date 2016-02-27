@@ -9,7 +9,8 @@ class Security:
         self.name = name
         self.is_open = False
 
-        self.our_count_waiting = 0
+        self.our_count_waiting_sell = 0
+        self.our_count_waiting_buy = 0
         self.our_count = 0
         # locked if waiting for decisin if Offer is accepted or not
         self.locked = False
@@ -45,8 +46,8 @@ class Security:
         return self.center_price
 
     def __str__(self):
-        return '{}: avg price {}, our_count {}, our_count_waiting {}'.format(
-            self.name, self.avg_transactions_value, self.our_count, self.our_count_waiting
+        return '{}: avg price {}, our_count {}, our_count_waiting_sell {}, our_count_waiting_buy {}'.format(
+            self.name, self.avg_transactions_value, self.our_count, self.our_count_waiting_sell, self.our_count_waiting_buy
         )
 
 
@@ -84,9 +85,9 @@ class Offer:
 
         if status == self.ACK:
             if self.dir == Offer.SELL:
-                security.our_count_waiting -= self.size
+                security.our_count_waiting_sell += self.size
             elif self.dir == Offer.BUY:
-                security.our_count_waiting += self.size
+                security.our_count_waiting_buy += self.size
 
     @staticmethod
     def get_id():
@@ -199,11 +200,11 @@ def fill(line):
 
     if offer.dir == Offer.SELL:
         security.our_count -= size
-        security.our_count_waiting += size
+        security.our_count_waiting_sell -= size
         MONEY += price
     elif offer.dir == Offer.BUY:
         security.our_count += size
-        security.our_count_waiting -= size
+        security.our_count_waiting_buy -= size
         MONEY -= price
 
 
