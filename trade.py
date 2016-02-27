@@ -34,4 +34,4 @@ def trade_BOND(price_limit):
             amount = price_limit / price
         else:
             AssertionError('value < 0 ?')
-    return price, amount
+        return price, amount
