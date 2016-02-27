@@ -160,7 +160,9 @@ def ack(line):
 
 
 def reject(line):
-    _, offer_id, message = line.split()
+    splitted_line = line.split()
+    offer_id = splitted_line[0]
+    message = splitted_line[1:]
     offer_id = int(offer_id)
 
     global OFFERS
@@ -168,7 +170,7 @@ def reject(line):
 
 
 def fill(line):
-    _, offer_id, _, _, _, size = line.split()
+    offer_id, _, _, _, size = line.split()
     offer_id = int(offer_id)
     size = int(size)
 
