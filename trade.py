@@ -1,4 +1,4 @@
-from analyze_data import (
+from .analyze_data import (
     SECURITIES,
     OFFERS,
     MONEY as money,
