@@ -40,7 +40,7 @@ def main(reactor):
     # test empty: python client.py test-exch-dmx 20002
     factory = ClientFactory()
     host = sys.argv[1]
-    port = sys.argv[2]
+    port = int(sys.argv[2])
     reactor.connectTCP(host, port, factory)
     return factory.done
 
