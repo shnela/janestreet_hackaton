@@ -33,12 +33,13 @@ def trade_BOND(price_limit):
         if bond.our_count > 0:
             # sell
             price = 1001
-            amount = bond.our_count
+            amount = bond.our_count - bond.our_count_waiting
             amount = -amount
         elif bond.our_count == 0:
             # buy
             price = 999
-            amount = price_limit // price
+            # amount = price_limit // price
+            amount = 50000 // price - bond.our_count_waiting
         else:
             raise AssertionError('value < 0 ?')
 
