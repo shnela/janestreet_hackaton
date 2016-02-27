@@ -17,7 +17,7 @@ from analyze_data import (
     fill,
     out,
     SECURITIES,
-)
+    MONEY)
 from trade import decide_if_trade
 
 
@@ -25,7 +25,8 @@ class Client(LineReceiver):
     delimiter = b'\n'
 
     def connectionMade(self):
-        reset_state() # TODO @Czarek, dobrze dobrze?
+        reset_state()
+        self.message_count = 0
         self.sendLine(b'HELLO DMX')
         print('connected')
 
@@ -52,6 +53,7 @@ class Client(LineReceiver):
         elif command == 'REJECT':
             reject(args)
         elif command == 'FILL':
+            print(command, args)
             fill(args)
         elif command == 'OUT':
             out(args)
@@ -67,6 +69,12 @@ class Client(LineReceiver):
             command = 'ADD {} {} {} {} {}'.format(id, name, arg, price, amount)
             print('sending:', command)
             self.sendLine(command.encode())
+
+        self.message_count += 1
+        if not self.message_count % 100:
+            print('\nmoney:', MONEY)
+            for s in SECURITIES.values():
+                print(s)
 
 
 class ClientFactory(ReconnectingClientFactory):

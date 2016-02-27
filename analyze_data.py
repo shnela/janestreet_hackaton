@@ -44,6 +44,11 @@ class Security:
         self.center_price = max_buy_price + ((min_sell_price - max_buy_price) / 2)
         return self.center_price
 
+    def __str__(self):
+        return '{}: avg price {}, our_count {}, our_count_waiting {}'.format(
+            self.name, self.avg_transactions_value, self.our_count, self.our_count_waiting
+        )
+
 
 class Offer:
     SENT = 'SENT'
