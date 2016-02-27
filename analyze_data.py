@@ -1,3 +1,8 @@
+# global variables
+OFFERS = {}
+SECURITIES = {}
+
+
 class Security:
     def __init__(self, name):
         self.name = name
@@ -53,8 +58,7 @@ class Offer:
         self.out = False
 
 
-# [id] -> offer
-OFFERS = {}
+
 
 securities_names = [
     "BOND",
@@ -66,7 +70,12 @@ securities_names = [
     "XLF",
 ]
 
-SECURITIES = {name: Security(name) for name in securities_names}
+
+def reset_state():
+    # [id] -> offer
+    global OFFERS, SECURITIES
+    OFFERS = {}
+    SECURITIES = {name: Security(name) for name in securities_names}
 
 
 def open(line):
