@@ -1,6 +1,7 @@
 class Security:
     def __init__(self, name):
         self.name = name
+        self.is_open = False
 
         # all avakuable on the beginning
         self.volume = None
@@ -66,6 +67,18 @@ securities_names = [
 ]
 
 SECURITIES = {name: Security(name) for name in securities_names}
+
+
+def open(line):
+    global SECURITIES
+    for symbol in line.split():
+        SECURITIES[symbol].is_open = True
+
+
+def close(line):
+    global SECURITIES
+    for symbol in line.split():
+        SECURITIES[symbol].is_open = False
 
 
 def trade(line):
