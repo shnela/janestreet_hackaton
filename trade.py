@@ -40,5 +40,23 @@ def trade_BOND(price_limit):
             price = 999
             amount = price_limit // price
         else:
-            AssertionError('value < 0 ?')
+            raise AssertionError('value < 0 ?')
+
         return bond.name, price, amount
+
+
+def trade_VALBZ_VALE(price_limit):
+    vale = SECURITIES['VALE']
+    valbz = SECURITIES['VALBZ']
+
+    if vale.is_open and vale.our_count_waiting == 0:
+        if vale.our_count > 0:
+            price = valbz.center_price + 2
+            amount = -vale.our_count
+        elif vale.our_count == 0:
+            price = valbz.center_price - 2
+            amount = price_limit // price
+        else:
+            raise AssertionError('stuff happened')
+
+        return vale.name, price, amount
