@@ -121,7 +121,7 @@ def book(line):
     """
     splitted_line = line.split()
     stock_name = splitted_line[0]
-    data = splitted_line[2:] # omit BUY string
+    data = splitted_line[2:]  # omit BUY string
 
     buy_dict = {}
     sell_dict = {}
@@ -145,7 +145,7 @@ def book(line):
 
 
 def ack(line):
-    offer_id = int(line)
+    offer_id = int(line.strip())
 
     global OFFERS, SECURITIES
     offer = OFFERS[offer_id]
@@ -189,7 +189,7 @@ def fill(line):
 
 
 def out(line):
-    offer_id = int(line.split()[1])
+    offer_id = int(line.strip())
 
     global OFFERS
     OFFERS[offer_id].out = True
