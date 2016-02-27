@@ -49,12 +49,13 @@ class Offer:
     REJECT = 'REJECT'
     BUY = 'BUY'
     SELL = 'SELL'
+    id = 0
 
     def __init__(self, id, symbol, dir, price, size, status=SENT):
         if dir not in ('BUY', 'SELL'):
             raise ValueError('dir not in (SELL, BUY)')
 
-        self.id = id
+        self.id = Offer.get_id()
         self.symbol = symbol
         self.dir = dir
         self.price = price
@@ -62,6 +63,12 @@ class Offer:
         self.status = status  # possible: SENT, ACK, REJECT
         self.left = size
         self.out = False
+
+    @staticmethod
+    def get_id(self):
+        self.id += 1
+        print(self.id)
+        return self.id
 
 
 securities_names = [
