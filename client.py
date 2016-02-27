@@ -61,7 +61,7 @@ class Client(LineReceiver):
         decision = decide_if_trade()
         if decision:
             name, price, amount = decision
-            print (name, price, amount)
+            print(name, price, amount)
 
 
 class ClientFactory(ReconnectingClientFactory):

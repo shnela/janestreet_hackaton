@@ -14,7 +14,10 @@ def decide_if_trade():
     bond_request = trade_BOND(50000)
     if bond_request:
         price, amount = bond_request
-        return "BOND", price, amount
+
+        # TODO @Ulit give me a id
+        id = 10
+        return id, "BOND", price, amount
 
 decide_if_trade.counter = 0
 
