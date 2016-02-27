@@ -29,7 +29,7 @@ decide_if_trade.counter = 0
 def trade_BOND(price_limit):
     bond = SECURITIES['BOND']
 
-    if bond.is_open and bond.our_count_waiting == 0:
+    if bond.is_open and not bond.locked and bond.our_count_waiting == 0:
         if bond.our_count > 0:
             # sell
             price = 1001

@@ -11,6 +11,8 @@ class Security:
 
         self.our_count_waiting = 0
         self.our_count = 0
+        # locked if waiting for decisin if Offer is accepted or not
+        self.locked = False
 
         # all avakuable on the beginning
         self.volume = None
@@ -63,6 +65,23 @@ class Offer:
         self.status = status  # possible: SENT, ACK, REJECT
         self.left = size
         self.out = False
+
+        security = SECURITIES[self.symbol]
+        security.locked = True
+
+    def change_status(self, status):
+        if status not in (self.ACK, self.REJECT):
+            raise ValueError('status not ACK OR REJECT')
+        self.status = status
+
+        security = SECURITIES[self.symbol]
+        security.locked = False
+
+        if status == self.ACK:
+            if self.dir == Offer.SELL:
+                security.our_count_waiting -= self.size
+            elif self.dir == Offer.BUY:
+                security.our_count_waiting += self.size
 
     @staticmethod
     def get_id():
@@ -144,18 +163,12 @@ def book(line):
 
 
 def ack(line):
-    offer_id = int(line.strip())
+    offer_id = int(line)
 
     global OFFERS, SECURITIES
     offer = OFFERS[offer_id]
-    offer.status = Offer.ACK
+    offer.change_status(Offer.ACK)
 
-    security = SECURITIES[offer.symbol]
-
-    if offer.dir == Offer.SELL:
-        security.our_count_waiting -= offer.size
-    elif offer.dir == Offer.BUY:
-        security.our_count_waiting += offer.size
 
 
 def reject(line):
@@ -165,7 +178,7 @@ def reject(line):
     offer_id = int(offer_id)
 
     global OFFERS
-    OFFERS[offer_id].status = Offer.REJECT
+    OFFERS[offer_id].change_status(Offer.REJECT)
 
 
 def fill(line):
