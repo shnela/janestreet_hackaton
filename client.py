@@ -16,6 +16,7 @@ from analyze_data import (
     reject,
     fill,
     out,
+    initialize,
     SECURITIES,
     MONEY)
 from trade import decide_if_trade
@@ -59,6 +60,7 @@ class Client(LineReceiver):
             out(args)
         elif command == 'HELLO':
             print(command, args)
+            initialize(args)
         else:
             raise AssertionError("No such command. From server.")
 

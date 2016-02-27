@@ -170,6 +170,16 @@ def book(line):
     SECURITIES[stock_name].count_center_price()
 
 
+def initialize(line):
+    # HELLO -5994 GS:0 BOND:6 MS:0 XLF:0 WFC:0 VALBZ:0 VALE:0
+    splitted_line = line.split()
+    global MONEY
+    MONEY = int(splitted_line[0])
+    securities = splitted_line[1:]
+    for security in securities:
+        name, amount = security.split(':')
+        SECURITIES[name].our_count = int(amount)
+
 def ack(line):
     offer_id = int(line)
 
