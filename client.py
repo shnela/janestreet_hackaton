@@ -17,7 +17,9 @@ class Client(LineReceiver):
         print('raw data received: ', data)
 
     def lineReceived(self, line):
-        print('receive: ', line)
+        line = line.decode('UTF-8')
+        if line.startswith('X'):
+            #funccall
 
 
 class ClientFactory(ReconnectingClientFactory):
