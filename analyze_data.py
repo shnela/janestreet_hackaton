@@ -48,6 +48,8 @@ class Offer:
         self.price = price
         self.size = size
         self.status = status  # possible: SENT, ACK, REJECT
+        self.left = size
+        self.out = False
 
 
 # [id] -> offer
@@ -117,3 +119,19 @@ def reject(line):
 
     global OFFERS
     OFFERS[offer_id].status = Offer.REJECT
+
+
+def fill(line):
+    _, offer_id, _, _, _, size = line.split()[1]
+    offer_id = int(offer_id)
+    size = int(size)
+
+    global OFFERS
+    OFFERS[offer_id].left -= size
+
+
+def out(line):
+    offer_id = int(line.split()[1])
+
+    global OFFERS
+    OFFERS[offer_id].out = True
