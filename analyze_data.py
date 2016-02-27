@@ -201,10 +201,12 @@ def fill(line):
     if offer.dir == Offer.SELL:
         security.our_count -= size
         security.our_count_waiting_sell -= size
+        assert(security.our_count_waiting_sell >= 0)
         MONEY += price
     elif offer.dir == Offer.BUY:
         security.our_count += size
         security.our_count_waiting_buy -= size
+        assert(security.our_count_waiting_buy >= 0)
         MONEY -= price
 
 
