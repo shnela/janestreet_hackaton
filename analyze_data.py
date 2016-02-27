@@ -9,8 +9,8 @@ class Security:
         self.name = name
         self.is_open = False
 
-        self.our_count_waiting = None
-        self.our_count = None
+        self.our_count_waiting = 0
+        self.our_count = 0
 
         # all avakuable on the beginning
         self.volume = None
