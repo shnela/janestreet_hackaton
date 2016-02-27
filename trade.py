@@ -27,8 +27,8 @@ def trade_BOND():
     bond = SECURITIES['BOND']
 
     if bond.is_open and not bond.locked:
-        available_to_buy = 100 - bond.our_count - bond.our_count_waiting_buy - bond.our_count_waiting_sell
-        if bond.our_count:
+        available_to_buy = 90 - bond.our_count - bond.our_count_waiting_buy - bond.our_count_waiting_sell
+        if (bond.our_count - bond.our_count_waiting_sell) > 0:
             return bond.name, 1001, -bond.our_count
         elif available_to_buy:
             return bond.name, 999, available_to_buy
